@@ -1,0 +1,11 @@
+{
+  "expo": {
+    "name": "TechPath",
+    "slug": "techpath-mobile",
+    "version": "1.0.0",
+    "scheme": "techpath",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "plugins": ["expo-router"]
+  }
+}
