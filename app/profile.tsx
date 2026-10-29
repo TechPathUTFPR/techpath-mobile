@@ -6,6 +6,7 @@ import { Button } from '../src/components/Button';
 import { MenuCard } from '../src/components/MenuCard';
 import { ProfilePhoto } from '../src/components/ProfilePhoto';
 import { ScreenHeader } from '../src/components/ScreenHeader';
+import { useAssessment } from '../src/features/assessment/AssessmentContext';
 import { useNavigateOnce } from '../src/hooks/useNavigateOnce';
 import { SessionUser, getSession } from '../src/services/session';
 import { profileLayout as L } from '../src/theme/screens';
@@ -17,24 +18,15 @@ import { confirmSignOut } from '../src/utils/confirmSignOut';
  * o toque exibe um aviso claro com a dependência (não há rota "de mentira").
  */
 const MENU: { label: string; route: Href | null; missing: string }[] = [
-  {
-    label: 'Minhas Trilhas',
-    route: null,
-    missing:
-      'A tela "Minhas Trilhas" ainda não foi implementada. Depende do layout no Figma e de um endpoint de trilhas no backend.',
-  },
-  {
-    label: 'Histórico de Resultados',
-    route: null,
-    missing:
-      'A tela "Histórico de Resultados" ainda não foi implementada. Depende do layout no Figma e de um endpoint de resultados no backend.',
-  },
+  { label: 'Minhas Trilhas', route: '/trails', missing: '' },
+  { label: 'Histórico de Resultados', route: '/history', missing: '' },
   { label: 'Editar Cadastro', route: '/edit-profile', missing: '' },
 ];
 
 export default function ProfileScreen() {
   const router = useRouter();
   const navigateOnce = useNavigateOnce();
+  const { reset } = useAssessment();
   const [user, setUser] = useState<SessionUser | null>(null);
 
   // Recarrega ao voltar do Editar Cadastro, para mostrar os dados atualizados.
@@ -70,7 +62,11 @@ export default function ProfileScreen() {
     );
   };
 
-  const handleSignOut = () => confirmSignOut(() => router.replace('/login'));
+  const handleSignOut = () =>
+    confirmSignOut(() => {
+      reset(); // limpa a memória (o histórico salvo no aparelho NÃO é apagado)
+      router.replace('/login');
+    });
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>

@@ -51,3 +51,52 @@ export function PencilIcon({ size = 24 }: { size?: number }) {
     </Svg>
   );
 }
+
+/** Seta para a direita (cartão da próxima etapa). */
+export function ChevronRightIcon({ size = 20, color = '#000000' }: { size?: number; color?: string }) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={1.75} strokeLinecap="round" strokeLinejoin="round">
+      <Path d="M9 18l6-6-6-6" />
+    </Svg>
+  );
+}
+
+/** Círculo de conclusão: dois círculos verdes concêntricos com um "check" fino. */
+export function CompletionBadge({
+  outer = 138,
+  inner = 106,
+  outerColor = '#D4FA8E',
+  innerColor = '#CCFA77',
+  checkColor = '#3A3A3A',
+}: {
+  outer?: number;
+  inner?: number;
+  outerColor?: string;
+  innerColor?: string;
+  checkColor?: string;
+}) {
+  const c = outer / 2;
+  return (
+    <Svg width={outer} height={outer} viewBox={`0 0 ${outer} ${outer}`}>
+      <Circle cx={c} cy={c} r={outer / 2} fill={outerColor} />
+      <Circle cx={c} cy={c} r={inner / 2} fill={innerColor} />
+      <Path
+        d={`M${c - 14.5} ${c - 1} L${c - 5.5} ${c + 9} L${c + 14.5} ${c - 15}`}
+        stroke={checkColor}
+        strokeWidth={1.5}
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        fill="none"
+      />
+    </Svg>
+  );
+}
+
+/** "Check" branco dos indicadores de etapa concluída. */
+export function CheckIcon({ size = 14, color = '#FFFFFF' }: { size?: number; color?: string }) {
+  return (
+    <Svg width={size} height={size} viewBox="0 0 24 24" fill="none" stroke={color} strokeWidth={3} strokeLinecap="round" strokeLinejoin="round">
+      <Path d="M5 12.5l4.5 4.5L19 7.5" />
+    </Svg>
+  );
+}

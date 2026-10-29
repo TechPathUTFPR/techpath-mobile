@@ -18,6 +18,7 @@ import { GoogleIcon } from '../src/components/GoogleIcon';
 import { Logo } from '../src/components/Logo';
 import { TextField } from '../src/components/TextField';
 import { env } from '../src/config/env';
+import { useGoToStart } from '../src/features/assessment/navigation';
 import { AuthError, loginWithEmail } from '../src/services/authService';
 import { colors, fontSizes, layout } from '../src/theme/tokens';
 import { validateLoginEmail, validateLoginPassword } from '../src/utils/validation';
@@ -26,6 +27,7 @@ type FieldErrors = { email: string | null; password: string | null };
 
 export default function LoginScreen() {
   const router = useRouter();
+  const goToStart = useGoToStart(); // pós-login: Landing (sem resultados) ou Histórico (com resultados)
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -59,7 +61,7 @@ export default function LoginScreen() {
     try {
       // Modo simulado (padrão): sem servidor. Modo real: POST /users/login. Ver authService.ts.
       await loginWithEmail(email.trim(), password);
-      router.replace('/home');
+      await goToStart();
     } catch (error) {
       setFormError(
         error instanceof AuthError ? error.message : 'Não foi possível entrar. Tente novamente.',

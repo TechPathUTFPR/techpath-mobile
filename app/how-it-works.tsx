@@ -3,6 +3,7 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 import { Button } from '../src/components/Button';
 import { LogoHorizontal } from '../src/components/LogoHorizontal';
 import { StepCard } from '../src/components/StepCard';
+import { useAssessment, useAssessmentBootstrap } from '../src/features/assessment/AssessmentContext';
 import { useNavigateOnce } from '../src/hooks/useNavigateOnce';
 import { brandColors, howItWorksLayout as L } from '../src/theme/screens';
 import { colors, layout } from '../src/theme/tokens';
@@ -10,6 +11,8 @@ import { colors, layout } from '../src/theme/tokens';
 /** Segunda tela de apresentação. "Começar minha Avaliação" → /assessment (questionário). */
 export default function HowItWorksScreen() {
   const navigateOnce = useNavigateOnce();
+  useAssessmentBootstrap();
+  const { hasInProgress } = useAssessment();
 
   return (
     <SafeAreaView style={styles.safeArea} edges={['top', 'bottom']}>
@@ -46,7 +49,7 @@ export default function HowItWorksScreen() {
 
       <View style={styles.footer}>
         <Button
-          label="Começar minha Avaliação"
+          label={hasInProgress ? 'Continuar minha Avaliação' : 'Começar minha Avaliação'}
           variant="brand"
           onPress={() => navigateOnce((r) => r.push('/assessment'))}
         />

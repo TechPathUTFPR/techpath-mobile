@@ -4,6 +4,7 @@ import {
   SessionUser,
   clearToken,
   clearUser,
+  getToken,
   getUser,
   saveToken,
   saveUser,
@@ -70,4 +71,9 @@ export async function updateSessionUser(patch: { name: string; email: string }):
  */
 export async function signOut(): Promise<void> {
   await Promise.all([clearToken(), clearUser()]);
+}
+
+/** Chave que identifica o dono dos dados guardados no aparelho (avaliações/histórico): o e-mail. */
+export function getUserKey(session: Session): string {
+  return session.user?.email?.trim().toLowerCase() || 'sem-email';
 }

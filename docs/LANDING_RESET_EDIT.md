@@ -1,14 +1,7 @@
 # Landing, Como Funciona, Redefinir Senha, Editar Cadastro + Login simulado
 
 ## Fluxo de navegação
-```
-Abertura (app/index.tsx)
- ├─ sessão ativa (real ou simulada) ─► /home (temporária) ─► /profile ─► /edit-profile
- └─ sem sessão ─► /landing ─► /how-it-works ─► /assessment (TEMPORÁRIA) ─► /login ─► /register
-                                                                              └──► /reset-password
-```
-- Não existe "primeira utilização" persistida: sem sessão, a Landing aparece. Com sessão, ela é pulada.
-- Hoje o Login só é alcançado pela ponte provisória "Ir para o Login" em `/assessment`, porque o questionário ainda não existe.
+O app **sempre abre no Login**. Depois de entrar (ou cadastrar) vai para a Landing (sem resultados salvos) ou para o Histórico (com resultados). Detalhes e diagrama em `QUESTIONARIO_RESULTADO.md`.
 - Toques repetidos em "Começar" / "Começar minha Avaliação" abrem a tela uma única vez (`useNavigateOnce`).
 
 ## Login SIMULADO (pedido do grupo)
@@ -23,7 +16,7 @@ Fundo lilás `#E7D7FE`, logo na mesma proporção vertical do Figma (31,9% da al
 
 ## Como Funciona (`app/how-it-works.tsx`)
 Logo horizontal, "Como Funciona", título em 3 linhas, cartões Responda / Descubra / Siga (`StepCard`). Conteúdo rola; o botão "Começar minha Avaliação" fica fixo embaixo e leva a **`/assessment`**.
-**O questionário NÃO está implementado**: `/assessment` é uma tela provisória que avisa isso e não gera resultados.
+`/assessment` agora é o questionário dinâmico (ver `QUESTIONARIO_RESULTADO.md`).
 
 ## Redefinir Senha (`app/reset-password.tsx`)
 Valida e-mail, nova senha (8+) e confirmação. **Não altera nenhuma senha**: o backend não tem redefinição com verificação de identidade (código/token por e-mail), e trocar senha só com o e-mail permitiria sequestro de contas. Ao tocar "Retornar ao Login" com dados válidos, o app avisa que a senha NÃO foi alterada e oferece ir ao Login. Integração futura preparada em `src/services/passwordResetService.ts`.

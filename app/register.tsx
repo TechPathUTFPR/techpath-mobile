@@ -17,6 +17,7 @@ import { LabeledField } from '../src/components/LabeledField';
 import { Logo } from '../src/components/Logo';
 import { PasswordField } from '../src/components/PasswordField';
 import { TextField } from '../src/components/TextField';
+import { useGoToStart } from '../src/features/assessment/navigation';
 import { AuthError, registerWithEmail } from '../src/services/authService';
 import { registerLayout, screenColors } from '../src/theme/screens';
 import { colors, fontSizes, layout } from '../src/theme/tokens';
@@ -31,6 +32,7 @@ const NO_ERRORS: FieldErrors = { email: null, password: null, confirm: null };
 
 export default function RegisterScreen() {
   const router = useRouter();
+  const goToStart = useGoToStart();
 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
@@ -66,7 +68,7 @@ export default function RegisterScreen() {
     setLoading(true);
     try {
       await registerWithEmail(email.trim(), password); // cadastro REAL (backend)
-      router.replace('/home');
+      await goToStart();
     } catch (error) {
       setFormError(
         error instanceof AuthError ? error.message : 'Não foi possível criar a conta. Tente novamente.',

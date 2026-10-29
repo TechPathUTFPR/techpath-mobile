@@ -16,3 +16,9 @@ export function deriveNameFromEmail(email: string): string {
   const name = words.join(' ').slice(0, 60).trim();
   return name || 'Usuário';
 }
+
+/** Primeiro nome para saudações ("Parabéns, Luiz!"). null se não houver nome. */
+export function firstName(name: string | null | undefined): string | null {
+  const first = name?.trim().split(/\s+/)[0];
+  return first ? first : null;
+}
